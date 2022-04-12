@@ -65,9 +65,10 @@
 		document.getElementById("export_plastic_data").onclick = function() {
 			console.log("making plastic data")
 			firestore = firebase.firestore()
+
+			plastic_usage = []
 			firestore.collection("users").get().then((snapshot) => {
 				snapshot.forEach((doc) => {
-					plastic_usage = []
 
 					console.log(doc.id)
 						//					console.log(doc.data()
