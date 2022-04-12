@@ -8,7 +8,6 @@
 
 	<script src="https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth.js"></script>
 
-	<script src="moment.js"></script>
 	<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth.css" />
 </head>
 
@@ -62,7 +61,7 @@
 		document.getElementById("export_riversnaps").onclick = function() {
 			console.log("making riversnaps data")
 
-			let riversnaps = []
+			riversnaps = []
 			firestore = firebase.firestore()
 			firestore.collection("riversnaps").get().then((snapshot) => {
 				snapshot.forEach((doc) => {
