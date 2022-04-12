@@ -56,6 +56,17 @@
 				snapshot.forEach((doc) => {
 					console.log(doc.id)
 					console.log(doc.data())
+
+					console.log(doc.data().plastics)
+					let user_plastics = doc.data().plastics
+					for (let week in user_plastics) {
+						console.log("Week: " + week)
+						for (let plastic in user_plastics[week]) {
+							console.log("plastic: " + plastic)
+							console.log(user_plastics[week][plastic])
+						}
+						console.log("")
+					}
 				})
 			})
 		}
