@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -29,7 +30,19 @@
 
 	<script>
 		let app, auth, firestore
-		let riversnaps, plasticusage
+		let riversnaps, plastic_usage
+
+		let plastics = {
+			"5HBeHVfu9dqiKjuPgi36": "outer wrapping",
+			"8lP83k7XMfzwnzEt2W5W": "styrofoam",
+			"X41VaJm6Oo2sZkglYB8Y": "miscellaneous",
+			"ZWW3FrsWLQknCNET4PBO": "bubble wrap",
+			"evhk5en8eUX0HDLtuOyY": "foils and sachets",
+			"on6Ns6tBJf5Wo8aIemxK": "water and soda bottles",
+			"pIgrJUpTKJLRWV9nmtrt": "food containers",
+			"rrLTYEovRqJbN9l5Rrts": "microwavable containers",
+			"u3QwueLHbBu8MbQVL31N": "hard plastic"
+		}
 
 		window.addEventListener('load', function() {
 			initApp()
@@ -54,19 +67,36 @@
 			firestore = firebase.firestore()
 			firestore.collection("users").get().then((snapshot) => {
 				snapshot.forEach((doc) => {
-					console.log(doc.id)
-					console.log(doc.data())
+					let plastic_usage = []
 
-					console.log(doc.data().plastics)
+					console.log(doc.id)
+						//					console.log(doc.data()
+					console.log("plastics: " + doc.data().plastics)
+
 					let user_plastics = doc.data().plastics
+
 					for (let week in user_plastics) {
-						console.log("Week: " + week)
+						let entry = {}
+
+						entry["email"] = doc.data().email
+						entry["participant number"] = doc.data().pid
+						entry["affiliation"] = doc.data().affiliation
+
+						entry["week covered by data collection"] = "Week " + week
+
 						for (let plastic in user_plastics[week]) {
 							console.log("plastic: " + plastic)
 							console.log(user_plastics[week][plastic])
+							entry[plastics[plastic] + " qty"] = user_plastics[week][plastic]["quantity"]
+							entry[plastics[plastic] + " weight"] = user_plastics[week][plastic]["weight"]
+							entry[plastics[plastic] + " timestamp"] = user_plastics[week][plastic]["timestamp"].toDate().toLocaleDateString('en-ph')
 						}
-						console.log("")
+
+						console.log("DONE WITH WEEK: " + week)
+						plastic_usage.push(entry)
 					}
+
+					console.log("DONE WITH USER: " + doc.data().email)
 				})
 			})
 		}
@@ -78,9 +108,6 @@
 			firestore.collection("riversnaps").get().then((snapshot) => {
 				snapshot.forEach((doc) => {
 					console.log(doc.id)
-						//					console.log(doc.data())
-						//					console.log(doc.data().timestamp)
-					console.log(doc.data().timestamp.toDate())
 					riversnaps.push({
 						"name": doc.id,
 						"date_uploaded": doc.data().timestamp.toDate().toLocaleDateString('en-ph'),
