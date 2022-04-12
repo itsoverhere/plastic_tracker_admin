@@ -15,8 +15,15 @@
 	<input type="email" id="email">
 	<input type="password" id="password">
 	<button id="signin">Sign in</button>
+
+	<br>
+
+	<button id="export_plastic_data">Export plastic data</button>
+	<button id="export_riversnaps">Export riversnaps</button>
+
+
 	<script>
-		let app, auth
+		let app, auth, firestore
 
 		window.addEventListener('load', function() {
 			initApp()
@@ -32,6 +39,7 @@
 						let password = document.getElementById("password").value
 						firebase.auth().signInWithEmailAndPassword(email, password).then((user) => {
 								console.log("Success in logging in")
+								alert("Success in logging in")
 							})
 							.catch((error) => {
 								console.error("Error in signing in user: " + error.message)
@@ -40,6 +48,34 @@
 
 				})
 		};
+
+		document.getElementById("export_plastic_data").onclick = function() {
+			console.log("making plastic data")
+
+			firestore = firebase.firestore()
+			firestore.collection("users").get().then((snapshot) => {
+				snapshot.forEach((doc) => {
+					console.log(doc.id)
+					console.log(doc.data())
+				})
+			})
+		}
+
+
+		document.getElementById("export_riversnaps").onclick = function() {
+			console.log("making riversnaps data")
+
+
+			firestore = firebase.firestore()
+			firestore.collection("riversnaps").get().then((snapshot) => {
+				snapshot.forEach((doc) => {
+					console.log(doc.id)
+					console.log(doc.data())
+				})
+			})
+		}
+
+
 
 		function setupFirebase() {
 			return new Promise((resolve) => {
