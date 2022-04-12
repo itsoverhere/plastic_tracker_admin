@@ -101,12 +101,13 @@
 
 					console.log("DONE WITH USER: " + doc.data().email)
 				})
+
+				console.log("Plastic usage is ready")
+				console.log(Papa.unparse(plastic_usage))
+
+				console.log("STEPS: \n (1) Copy this to Brackets, (2) remove the extra line between entries, (3) copy into excel file, (4) text to columns with , delimited")
 			})
 
-			console.log("Plastic usage is ready")
-			console.log(Papa.unparse(plastic_usage))
-
-			console.log("STEPS: \n (1) Copy this to Brackets, (2) remove the extra line between entries, (3) copy into excel file, (4) text to columns with , delimited")
 		}
 		document.getElementById("export_riversnaps").onclick = function() {
 			console.log("making riversnaps data")
@@ -123,14 +124,16 @@
 							"url": "https://firebasestorage.googleapis.com/v0/b/plastic-tracker-2cbb7.appspot.com/o/" + doc.id + "?alt=media&token=71618d45-4f63-40e5-801e-334a32ba5257"
 						})
 					})
+
+
+					console.log("Riversnaps is ready")
+					console.log(Papa.unparse(riversnaps))
+
+					console.log("STEPS: \n (1) Copy this to Brackets, (2) remove the extra line between entries, (3) copy into excel file, (4) text to columns with , delimited")
 				})
 				//
 				//			console.log(riversnaps)
-				//			
-			console.log("Riversnaps is ready")
-			console.log(Papa.unparse(riversnaps))
-
-			console.log("STEPS: \n (1) Copy this to Brackets, (2) remove the extra line between entries, (3) copy into excel file, (4) text to columns with , delimited")
+				//		
 		}
 
 		function jsontocsv(json3) {
