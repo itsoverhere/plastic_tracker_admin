@@ -11,6 +11,10 @@
 </head>
 
 <body>
+
+	<input type="email" id="email">
+	<input type="password" id="password">
+	<button id="signin">Sign in</button>
 	<script>
 		let app, auth
 
@@ -22,12 +26,18 @@
 			Promise.resolve()
 				.then(setupFirebase)
 				.then(() => {
-					firebase.auth().signInWithEmailAndPassword("courtneyngo@gmail.com", "abcdef").then((user) => {
-							console.log("Success")
-						})
-						.catch((error) => {
-							console.error("Error in signing in user: " + error.message)
-						})
+
+					document.getElementById("signin").onclick = function() {
+						let email = document.getElementById("email").value
+						let password = document.getElementById("password").value
+						firebase.auth().signInWithEmailAndPassword(email, password).then((user) => {
+								console.log("Success in logging in")
+							})
+							.catch((error) => {
+								console.error("Error in signing in user: " + error.message)
+							})
+					}
+
 				})
 		};
 
