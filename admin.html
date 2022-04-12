@@ -29,6 +29,8 @@
 
 	<script>
 		let app, auth, firestore
+		let riversnaps, plasticusage
+
 		window.addEventListener('load', function() {
 			initApp()
 		});
@@ -59,18 +61,19 @@
 		}
 		document.getElementById("export_riversnaps").onclick = function() {
 			console.log("making riversnaps data")
+
 			let riversnaps = []
 			firestore = firebase.firestore()
 			firestore.collection("riversnaps").get().then((snapshot) => {
 				snapshot.forEach((doc) => {
 					console.log(doc.id)
 						//					console.log(doc.data())
-					console.log(doc.data().timestamp)
-					console.log(doc.data().date)
+						//					console.log(doc.data().timestamp)
+					console.log(doc.data().timestamp.toDate())
 					riversnaps.push({
 						"name": doc.id,
-						"date_uploaded": doc.data().timestamp,
-						"date_taken": doc.data().date,
+						"date_uploaded": doc.data().timestamp.toDate(),
+						"date_taken": new Date(doc.data().date).toLocaleDateString('en-ph'),
 						"url": "https://firebasestorage.googleapis.com/v0/b/plastic-tracker-2cbb7.appspot.com/o/" + doc.id + "?alt=media&token=71618d45-4f63-40e5-801e-334a32ba5257"
 					})
 				})
