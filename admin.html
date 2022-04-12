@@ -7,6 +7,8 @@
 	<script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 	<script src="https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth.js"></script>
+
+	<script src="moment.js"></script>
 	<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth.css" />
 </head>
 
@@ -14,68 +16,66 @@
 
 	<input type="email" id="email">
 	<input type="password" id="password">
-	<button id="signin">Sign in</button>
+	<button id="signin"> Sign in
+	</button>
 
 	<br>
 
-	<button id="export_plastic_data">Export plastic data</button>
-	<button id="export_riversnaps">Export riversnaps</button>
+	<button id="export_plastic_data"> Export plastic data
+	</button>
+	<button id="export_riversnaps"> Export riversnaps
+	</button>
 
 
 	<script>
-		let app, auth, firestore
-
-		window.addEventListener('load', function() {
+		let app, auth, firestore window.addEventListener('load', function() {
 			initApp()
 		});
-
 		initApp = function() {
-			Promise.resolve()
-				.then(setupFirebase)
-				.then(() => {
-
-					document.getElementById("signin").onclick = function() {
-						let email = document.getElementById("email").value
-						let password = document.getElementById("password").value
-						firebase.auth().signInWithEmailAndPassword(email, password).then((user) => {
-								console.log("Success in logging in")
-								alert("Success in logging in")
-							})
-							.catch((error) => {
-								console.error("Error in signing in user: " + error.message)
-							})
-					}
-
-				})
+			Promise.resolve().then(setupFirebase).then(() => {
+				document.getElementById("signin").onclick = function() {
+					let email = document.getElementById("email").value
+					let password = document.getElementById("password").value firebase.auth().signInWithEmailAndPassword(email, password).then((user) => {
+						console.log("Success in logging in") alert("Success in logging in")
+					}).catch((error) => {
+						console.error("Error in signing in user: " + error.message)
+					})
+				}
+			})
 		};
-
 		document.getElementById("export_plastic_data").onclick = function() {
-			console.log("making plastic data")
-
-			firestore = firebase.firestore()
-			firestore.collection("users").get().then((snapshot) => {
+			console.log("making plastic data") firestore = firebase.firestore() firestore.collection("users").get().then((snapshot) => {
 				snapshot.forEach((doc) => {
-					console.log(doc.id)
-					console.log(doc.data())
+					console.log(doc.id) console.log(doc.data())
 				})
 			})
 		}
-
-
 		document.getElementById("export_riversnaps").onclick = function() {
-			console.log("making riversnaps data")
-
-
-			firestore = firebase.firestore()
-			firestore.collection("riversnaps").get().then((snapshot) => {
+			console.log("making riversnaps data") let riversnaps = [] firestore = firebase.firestore() firestore.collection("riversnaps").get().then((snapshot) => {
 				snapshot.forEach((doc) => {
 					console.log(doc.id)
-					console.log(doc.data())
+						//					console.log(doc.data())
+					riversnaps.push({
+						"name": doc.id,
+						"date_uploaded": doc.data().timestamp.toLocaleDateString(),
+						"date_taken": doc.data().date,
+						"url": "https://firebasestorage.googleapis.com/v0/b/plastic-tracker-2cbb7.appspot.com/o/" + doc.id + "?alt=media&token=71618d45-4f63-40e5-801e-334a32ba5257"
+					})
 				})
 			})
+
+			console.log(riversnaps)
 		}
 
-
+		function jsontocsv(json3) {
+			const items = json3.items
+			const replacer = (key, value) => value === null ? '' : value
+				// specify how you want to handle null values here 
+			const header = Object.keys(items[0]) const csv = [header.join(','),
+				// header row first ...
+				items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
+			].join('\r\n') console.log(csv)
+		}
 
 		function setupFirebase() {
 			return new Promise((resolve) => {
@@ -88,7 +88,6 @@
 					measurementId: "G-2FF14XFMB6"
 				};
 				app = firebase.initializeApp(firebaseConfig);
-
 				resolve()
 			})
 		}
