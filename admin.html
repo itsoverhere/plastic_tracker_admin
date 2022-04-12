@@ -67,7 +67,7 @@
 			firestore = firebase.firestore()
 			firestore.collection("users").get().then((snapshot) => {
 				snapshot.forEach((doc) => {
-					let plastic_usage = []
+					plastic_usage = []
 
 					console.log(doc.id)
 						//					console.log(doc.data()
@@ -93,6 +93,8 @@
 						}
 
 						console.log("DONE WITH WEEK: " + week)
+						console.log("entry")
+						console.log(entry)
 						plastic_usage.push(entry)
 					}
 
