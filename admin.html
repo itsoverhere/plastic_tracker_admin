@@ -65,9 +65,11 @@
 				snapshot.forEach((doc) => {
 					console.log(doc.id)
 						//					console.log(doc.data())
+					console.log(doc.data().timestamp)
+					console.log(doc.data().date)
 					riversnaps.push({
 						"name": doc.id,
-						"date_uploaded": doc.data().timestamp.toLocaleDateString(),
+						"date_uploaded": doc.data().timestamp,
 						"date_taken": doc.data().date,
 						"url": "https://firebasestorage.googleapis.com/v0/b/plastic-tracker-2cbb7.appspot.com/o/" + doc.id + "?alt=media&token=71618d45-4f63-40e5-801e-334a32ba5257"
 					})
