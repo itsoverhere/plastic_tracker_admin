@@ -36,7 +36,9 @@
 			Promise.resolve().then(setupFirebase).then(() => {
 				document.getElementById("signin").onclick = function() {
 					let email = document.getElementById("email").value
-					let password = document.getElementById("password").value firebase.auth().signInWithEmailAndPassword(email, password).then((user) => {
+					let password = document.getElementById("password").value
+
+					firebase.auth().signInWithEmailAndPassword(email, password).then((user) => {
 						console.log("Success in logging in") alert("Success in logging in")
 					}).catch((error) => {
 						console.error("Error in signing in user: " + error.message)
