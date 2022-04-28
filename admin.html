@@ -123,7 +123,8 @@
 							"name": doc.id,
 							"date_uploaded": doc.data().timestamp.toDate().toLocaleDateString('en-ph'),
 							"date_taken": new Date(doc.data().date).toLocaleDateString('en-ph'),
-							"url": "https://firebasestorage.googleapis.com/v0/b/plastic-tracker-2cbb7.appspot.com/o/" + doc.id + "?alt=media&token=71618d45-4f63-40e5-801e-334a32ba5257"
+							"url": "https://firebasestorage.googleapis.com/v0/b/plastic-tracker-2cbb7.appspot.com/o/" + doc.id + "?alt=media&token=71618d45-4f63-40e5-801e-334a32ba5257",
+							"location": doc.data().location
 						})
 					})
 
