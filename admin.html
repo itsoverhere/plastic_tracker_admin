@@ -27,6 +27,8 @@
 	<button id="export_riversnaps"> Export riversnaps
 	</button>
 
+	<input type="button" value="download CSV" onclick="downloadCSV()">
+
 
 	<script>
 		let app, auth, firestore
@@ -161,6 +163,22 @@
 				app = firebase.initializeApp(firebaseConfig);
 				resolve()
 			})
+		}
+
+
+		function downloadCSV() {
+			var csv = Papa.unparse(riversnaps);
+
+			var csvData = new Blob([csv], {
+				type: 'text/csv;charset=utf-8;'
+			});
+			var csvURL = null;
+			csvURL = window.URL.createObjectURL(csvData);
+
+			var tempLink = document.createElement('a');
+			tempLink.href = csvURL;
+			tempLink.setAttribute('download', 'download.csv');
+			tempLink.click();
 		}
 
 	</script>
